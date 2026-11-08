@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b0e">
+<title>Profil Akun — MailZen</title>
+<style>
+:root{
+  --bg:#090b0e;--panel:#11151a;--panel2:#151a20;--line:#29313a;
+  --text:#edf1f5;--muted:#929ca8;--silver:#c9d0d8;--blue:#91b9d7;
+  --red:#e58b92;--green:#86c9a5;--amber:#d9b879;
+  --shadow:0 18px 45px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ background:radial-gradient(ellipse at 50% -15%,#29313b 0,transparent 45%),radial-gradient(ellipse at 100% 65%,#171e26 0,transparent 40%),var(--bg)}
+button,input{font:inherit}
+button{cursor:pointer}
+.page{width:min(100% - 28px,760px);margin:24px auto 48px;display:grid;gap:18px}
+.panel{background:linear-gradient(145deg,rgba(23,29,36,.97),rgba(14,18,23,.98));border:1px solid #303943;border-radius:27px;box-shadow:var(--shadow),inset 0 1px rgba(255,255,255,.045);overflow:hidden}
+.profile-cover{height:130px;padding:22px 25px;background:linear-gradient(115deg,#252d36,#11161c 60%,#343c46);border-bottom:1px solid #3a434d;position:relative}
+.section-kicker{display:flex;align-items:center;gap:10px;color:#d7dde4;font-size:14px;font-weight:650}
+.section-kicker svg{width:18px;height:18px;color:#bdc7d1;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.profile-body{padding:0 24px 25px;text-align:center}
+.avatar-wrap{width:116px;height:116px;margin:-58px auto 14px;position:relative;z-index:1}
+.avatar{width:116px;height:116px;display:block;border-radius:50%;overflow:hidden;border:5px solid #d8dde3;background:#171c22;box-shadow:0 8px 25px #0008}
+.avatar svg{width:100%;height:100%;display:block}
+.camera-btn{position:absolute;right:-2px;bottom:0;width:39px;height:39px;border-radius:50%;display:grid;place-items:center;color:#eaf0f5;background:linear-gradient(145deg,#4b5662,#202830);border:2px solid #c7cdd4;box-shadow:0 4px 12px #0008}
+.camera-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+h1{font-size:23px;line-height:1.2;margin:0 0 5px;letter-spacing:-.35px}
+.email{color:var(--muted);font-size:14px;margin:0 0 17px}
+.profile-actions{display:flex;justify-content:center;gap:10px;margin-bottom:23px}
+.btn{border:1px solid #3a444e;border-radius:13px;padding:10px 16px;background:linear-gradient(145deg,#202831,#141a20);color:#e4e9ee;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:700;box-shadow:inset 0 1px rgba(255,255,255,.07),0 4px 12px #0004;transition:transform .16s,border-color .16s,box-shadow .16s}
+.btn:active{transform:scale(.97)}
+.btn:hover{border-color:#758391;box-shadow:0 6px 18px #0005}
+.btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn-danger{color:#eea0a5;border-color:#58363b;background:linear-gradient(145deg,#2a1c20,#191417)}
+.fields{display:grid;gap:10px;text-align:left}
+.field{min-height:67px;padding:11px 16px;border-radius:18px;border:1px solid #303a44;background:linear-gradient(120deg,#171e25,#11171d);box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.field-label{font-size:11px;letter-spacing:.55px;text-transform:uppercase;color:#9ca7b2;margin-bottom:5px}
+.field-value{font-size:15px;color:#e4e9ee;overflow-wrap:anywhere}
+.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.15px}
+.stats-panel,.security-panel{padding:22px 24px 24px}
+.panel-title{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:750;margin:0 0 17px}
+.panel-title svg{width:20px;height:20px;color:#b9c6d2;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{min-height:100px;border:1px solid #303a44;border-radius:20px;background:linear-gradient(145deg,#1a2129,#12181e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.stat-number{font-size:29px;font-weight:850;line-height:1.1;color:#e2e7ec;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:#a0aab5}
+.stat.accepted .stat-number{color:#91c9a8}.stat.rejected .stat-number{color:#e58b92}.stat.pending .stat-number{color:#d9b879}
+.security-action{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:14px 16px;border-radius:15px;border:1px solid #37424d;background:linear-gradient(145deg,#202831,#141a20);color:#e6ebef;box-shadow:inset 0 1px #ffffff08}
+.security-action svg{width:19px;height:19px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.security-action .arrow{margin-left:auto;color:#9aa5b0}
+.logout{width:100%;min-height:58px;border:1px solid #55383d;border-radius:18px;background:linear-gradient(145deg,#281b20,#171316);color:#e99ba1;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:var(--shadow);transition:transform .16s}
+.logout:active{transform:scale(.985)}
+.logout svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.modal-backdrop{position:fixed;inset:0;z-index:10;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.72);backdrop-filter:blur(9px)}
+.modal-backdrop.open{display:flex}
+.modal{width:min(100%,410px);padding:22px;border-radius:23px;border:1px solid #414c58;background:linear-gradient(145deg,#202832,#10151a);box-shadow:0 24px 80px #000b}
+.modal h2{font-size:19px;margin:0 0 7px}.modal p{font-size:13px;color:#a5afba;line-height:1.5;margin:0 0 17px}
+.form-field{display:grid;gap:7px;margin:12px 0}
+.form-field label{font-size:12px;color:#aeb8c2}
+.form-field input{width:100%;border:1px solid #3a4652;border-radius:12px;background:#0d1217;color:#f0f3f6;padding:12px 13px;outline:none}
+.form-field input:focus{border-color:#91b9d7;box-shadow:0 0 0 3px #91b9d71c}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+.btn-primary{background:linear-gradient(145deg,#d9e0e6,#8e9aa6);color:#111820;border-color:#d2d8de}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:10px 15px;border-radius:12px;background:#d8e0e7;color:#111820;font-size:13px;font-weight:750;box-shadow:0 8px 25px #0008;transition:.2s;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:520px){.page{width:min(100% - 20px,760px);margin:12px auto 28px;gap:13px}.profile-cover{height:116px;padding:19px}.profile-body{padding:0 15px 18px}.avatar-wrap{width:108px;height:108px;margin-top:-54px}.avatar{width:108px;height:108px}.stats-panel,.security-panel{padding:19px 16px}.field{min-height:64px}.stat{min-height:92px}.profile-actions .btn{padding:9px 13px}}
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="panel">
+    <div class="profile-cover"><div class="section-kicker">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20v-1.5a7 7 0 0 1 14 0V20"/></svg>
+      Profil Saya
+    </div></div>
+    <div class="profile-body">
+      <div class="avatar-wrap">
+        <div class="avatar" id="avatar">
+          <!-- Default avatar: faceless human silhouette on an obsidian background -->
+          <svg viewBox="0 0 120 120" role="img" aria-label="Avatar default siluet tanpa wajah">
+            <defs>
+              <linearGradient id="obsidian" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#414b56"/><stop offset=".48" stop-color="#171d24"/><stop offset="1" stop-color="#080b0f"/></linearGradient>
+              <linearGradient id="person" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d6dde4"/><stop offset=".55" stop-color="#7e8a96"/><stop offset="1" stop-color="#39434d"/></linearGradient>
+            </defs>
+            <rect width="120" height="120" fill="url(#obsidian)"/>
+            <circle cx="60" cy="43" r="23" fill="url(#person)"/>
+            <path d="M17 120c2-27 19-42 43-42s41 15 43 42" fill="url(#person)"/>
+            <path d="M47 44c4 3 22 3 26 0" fill="none" stroke="#aeb8c2" stroke-opacity=".28" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="57" fill="none" stroke="#ffffff" stroke-opacity=".08" stroke-width="1"/>
+          </svg>
+        </div>
+        <button class="camera-btn" id="choose-photo" type="button" aria-label="Ganti foto" title="Ganti foto">
+          <svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.2"/></svg>
+        </button>
+        <input type="file" id="photo-input" accept="image/*" hidden>
+      </div>
+      <h1 id="profile-name">MailZen User</h1>
+      <p class="email" id="profile-email">user@mailzen.com</p>
+      <div class="profile-actions">
+        <button class="btn" id="change-photo" type="button"><svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.2"/></svg>Ganti Foto</button>
+        <button class="btn btn-danger" id="remove-photo" type="button"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg>Hapus</button>
+      </div>
+      <div class="fields">
+        <div class="field"><div class="field-label">UID</div><div class="field-value mono" id="profile-uid">Akan dimuat dari akun</div></div>
+        <div class="field"><div class="field-label">Email</div><div class="field-value" id="field-email">user@mailzen.com</div></div>
+        <div class="field"><div class="field-label">Nomor Dana</div><div class="field-value" id="profile-wallet">-</div></div>
+        <div class="field"><div class="field-label">Role</div><div class="field-value" id="profile-role">User</div></div>
+        <div class="field"><div class="field-label">Tanggal Gabung</div><div class="field-value" id="profile-joined">-</div></div>
+        <div class="field"><div class="field-label">Kata Sandi Diubah</div><div class="field-value" id="profile-password-changed">Belum pernah</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel stats-panel">
+    <h2 class="panel-title"><svg viewBox="0 0 24 24"><path d="M8 21h8m-4-4v4M6 4h12v5a6 6 0 0 1-12 0V4Zm0 2H3v2a5 5 0 0 0 5 5m10-7h3v2a5 5 0 0 1-5 5"/></svg>Statistik Total</h2>
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total Storan</div></div>
+      <div class="stat accepted"><div class="stat-number" id="stat-approved">0</div><div class="stat-label">Diterima</div></div>
+      <div class="stat rejected"><div class="stat-number" id="stat-rejected">0</div><div class="stat-label">Ditolak</div></div>
+      <div class="stat pending"><div class="stat-number" id="stat-pending">0</div><div class="stat-label">Pending</div></div>
+    </div>
+  </section>
+
+  <section class="panel security-panel">
+    <h2 class="panel-title"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8 3 3-8 8M17 7l2 2M5 15h.01"/></svg>Keamanan Akun</h2>
+    <button class="security-action" id="open-password" type="button">
+      <svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8 3 3-8 8M17 7l2 2M5 15h.01"/></svg>
+      <span>Ganti Kata Sandi</span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+  </section>
+
+  <button class="logout" id="logout" type="button"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5m5 5H3m10-9h5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-5"/></svg>Keluar dari Akun</button>
+</main>
+
+<div class="modal-backdrop" id="password-modal" role="dialog" aria-modal="true" aria-labelledby="password-title">
+  <div class="modal">
+    <h2 id="password-title">Ganti Kata Sandi</h2>
+    <p>Masukkan kata sandi lama, lalu buat kata sandi baru untuk akun lo.</p>
+    <form id="password-form">
+      <div class="form-field"><label for="old-password">Kata sandi saat ini</label><input id="old-password" type="password" autocomplete="current-password" required placeholder="Masukkan kata sandi saat ini"></div>
+      <div class="form-field"><label for="new-password">Kata sandi baru</label><input id="new-password" type="password" autocomplete="new-password" minlength="8" required placeholder="Minimal 8 karakter"></div>
+      <div class="form-field"><label for="confirm-password">Konfirmasi kata sandi baru</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="8" required placeholder="Ulangi kata sandi baru"></div>
+      <div class="modal-actions"><button class="btn" type="button" data-close="password-modal">Batal</button><button class="btn btn-primary" type="submit">Simpan Perubahan</button></div>
+    </form>
+  </div>
+</div>
+<div class="modal-backdrop" id="logout-modal" role="dialog" aria-modal="true" aria-labelledby="logout-title">
+  <div class="modal">
+    <h2 id="logout-title">Keluar dari akun?</h2><p>Pastikan perubahan akun sudah tersimpan sebelum keluar.</p>
+    <div class="modal-actions"><button class="btn" type="button" data-close="logout-modal">Batal</button><button class="btn btn-primary" id="confirm-logout" type="button">Ya, Keluar</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const photoInput=$('photo-input'),avatar=$('avatar');
+ const defaultAvatar=avatar.innerHTML;
+ function toast(message){const t=$('toast');t.textContent=message;t.classList.add('show');clearTimeout(window.__profileToast);window.__profileToast=setTimeout(()=>t.classList.remove('show'),2200)}
+ function open(id){$(id).classList.add('open')}
+ function close(id){$(id).classList.remove('open')}
+ $('choose-photo').onclick=$('change-photo').onclick=()=>photoInput.click();
+ photoInput.addEventListener('change',()=>{
+   const file=photoInput.files&&photoInput.files[0];if(!file)return;
+   if(!file.type.startsWith('image/')){toast('Pilih file gambar yang valid.');return}
+   const reader=new FileReader();reader.onload=()=>{avatar.innerHTML='';const img=document.createElement('img');img.src=reader.result;img.alt='Foto profil';img.style.cssText='width:100%;height:100%;object-fit:cover';avatar.appendChild(img);toast('Preview foto berhasil diperbarui.')};reader.readAsDataURL(file);
+ });
+ $('remove-photo').onclick=()=>{avatar.innerHTML=defaultAvatar;photoInput.value='';toast('Foto kembali ke avatar default.')};
+ $('open-password').onclick=()=>open('password-modal');
+ $('logout').onclick=()=>open('logout-modal');
+ document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));
+ document.querySelectorAll('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)close(m.id)}));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>close(m.id))});
+ $('password-form').addEventListener('submit',e=>{
+   e.preventDefault();
+   const a=$('new-password').value,b=$('confirm-password').value;
+   if(a!==b){$('confirm-password').setCustomValidity('Konfirmasi kata sandi tidak sama.');$('confirm-password').reportValidity();return}
+   $('confirm-password').setCustomValidity('');
+   // Frontend-only: connect this handler to the authentication backend.
+   window.dispatchEvent(new CustomEvent('profile:password-change-request',{detail:{currentPassword:$('old-password').value,newPassword:a}}));
+   close('password-modal');$('password-form').reset();toast('Form siap diproses oleh backend.');
+ });
+ $('confirm-logout').onclick=()=>{window.dispatchEvent(new CustomEvent('profile:logout-request'));close('logout-modal');toast('Hubungkan aksi keluar ke backend autentikasi.')};
+ // Dashboard/backend may populate these values after authentication is connected.
+ window.addEventListener('profile:data',e=>{
+   const d=e.detail||{};
+   for(const [key,id] of Object.entries({name:'profile-name',email:'profile-email',uid:'profile-uid',wallet:'profile-wallet',role:'profile-role',joined:'profile-joined',passwordChanged:'profile-password-changed'})){
+     if(d[key]!==undefined)$(id).textContent=d[key];
+   }
+   if(d.email!==undefined)$('field-email').textContent=d.email;
+   if(d.stats){$('stat-total').textContent=d.stats.total??0;$('stat-approved').textContent=d.stats.approved??0;$('stat-rejected').textContent=d.stats.rejected??0;$('stat-pending').textContent=d.stats.pending??0}
+ });
+})();
+</script>
+</body>
+</html>

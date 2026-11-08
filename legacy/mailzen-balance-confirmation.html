@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MailZen — Saldo & Penarikan</title>
+<style>
+:root{--bg:#080a0f;--panel:#11151d;--panel2:#171d27;--line:rgba(255,255,255,.09);--muted:#929baa;--text:#f4f6fa;--silver:#cbd2dc;--blue:#8da7c8;--blue2:#58779f;--green:#9bc8ad}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0%,rgba(73,105,148,.18),transparent 32%),radial-gradient(ellipse at 95% 30%,rgba(57,77,111,.15),transparent 35%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 0 47%,rgba(255,255,255,.018) 48%,transparent 49% 100%);opacity:.8}
+.wrap{width:min(100% - 32px,760px);margin:0 auto;padding:24px 0 28px;position:relative}
+.topbar{display:flex;align-items:center;gap:14px;padding:13px 16px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));box-shadow:0 14px 40px #0008;backdrop-filter:blur(18px);margin-bottom:22px}
+.icon-btn{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#222a36,#11161e);color:#dce5f2;box-shadow:inset 0 1px 0 #ffffff18,0 6px 15px #0006;cursor:pointer;transition:transform .18s,filter .18s}
+.icon-btn:active,.action:active,.nav-item:active{transform:scale(.96)}
+.heading{flex:1}.heading h1{font-size:19px;margin:0 0 3px;letter-spacing:-.4px}.heading p{margin:0;color:var(--muted);font-size:13px}
+.logout{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:#1a202a;color:#d9e0ea;font-weight:650;font-size:13px;cursor:pointer}
+.card{border:1px solid var(--line);border-radius:26px;background:linear-gradient(150deg,rgba(255,255,255,.075),rgba(255,255,255,.018) 42%),var(--panel);box-shadow:0 18px 48px #0007,inset 0 1px 0 #ffffff0b;margin-bottom:18px;overflow:hidden}
+.balance{padding:25px 25px 23px;position:relative;background:radial-gradient(ellipse at 90% 0%,rgba(76,108,153,.2),transparent 48%),linear-gradient(145deg,#1a202a,#0d1118 68%);min-height:220px}
+.balance:after{content:"";position:absolute;width:270px;height:270px;border:1px solid #ffffff0c;border-radius:50%;right:-110px;top:-170px;box-shadow:0 0 0 22px #ffffff04,0 0 0 48px #ffffff03}
+.eyebrow{font-size:11px;letter-spacing:2.6px;font-weight:750;color:#aeb8c7;text-transform:uppercase}
+.amount{font-size:clamp(36px,8vw,48px);font-weight:780;letter-spacing:-2px;margin:10px 0 23px}
+.balance-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pending{padding:13px 16px;min-width:46%;border:1px solid #ffffff0d;border-radius:17px;background:rgba(255,255,255,.055)}
+.pending small{display:block;color:#9da8b8;font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px}
+.pending strong{font-size:18px}
+.section{padding:22px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:19px}
+.section-title{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:750;letter-spacing:-.3px}
+.section-title svg{color:#aebfd5}
+.status{font-size:11px;font-weight:750;letter-spacing:.6px;text-transform:uppercase;color:#d8b77d;background:rgba(184,145,81,.13);border:1px solid rgba(184,145,81,.22);padding:7px 10px;border-radius:999px}
+.field-label{display:block;font-size:13px;color:#cbd2dc;font-weight:650;margin:16px 0 9px}
+.input-wrap{display:flex;align-items:center;gap:11px;border:1px solid rgba(143,170,205,.2);border-radius:16px;padding:0 15px;background:#0b1018;box-shadow:inset 0 2px 10px #0005}
+.input-wrap svg{color:#9eb6d3;flex:none}.input-wrap input{width:100%;border:0;outline:0;background:transparent;color:#f5f7fa;padding:16px 0;font-size:16px}
+.input-wrap input::placeholder{color:#667386}.hint{font-size:12px;color:#8793a4;margin:8px 0 18px}
+.breakdown{background:rgba(255,255,255,.045);border:1px solid #ffffff09;border-radius:17px;padding:14px 15px;display:grid;gap:12px}
+.break-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;color:#aeb8c6}.break-row strong{color:#e8edf4;font-size:14px}.break-row.total{padding-top:10px;border-top:1px solid var(--line);color:#dce3ed}.break-row.total strong{color:var(--green);font-size:16px}
+.action{width:100%;margin-top:19px;padding:16px;border:1px solid rgba(213,225,241,.22);border-radius:16px;background:linear-gradient(180deg,#c7d0dc,#8293aa);color:#111925;font-size:14px;font-weight:800;letter-spacing:.1px;box-shadow:inset 0 1px 0 #fff9,0 8px 20px #0006;cursor:pointer;transition:transform .18s,filter .18s}
+.action:hover{filter:brightness(1.06)}
+.history{padding:22px;min-height:280px}
+.history h2{font-size:17px;margin:0;font-weight:750}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:210px;color:#aab4c2;gap:13px}
+.empty-icon{width:68px;height:68px;border:1px solid #ffffff18;border-radius:22px;background:linear-gradient(145deg,#273447,#131a25);display:grid;place-items:center;color:#c8d5e6;box-shadow:0 12px 30px #0008,inset 0 1px 0 #ffffff1b}
+.empty strong{font-size:14px;color:#d9e0e9}.empty span{font-size:12px;color:#818d9d}
+@media(max-width:480px){.wrap{width:calc(100% - 24px);padding-top:12px}.topbar{padding:10px 11px;border-radius:18px;gap:10px}.heading h1{font-size:16px}.heading p{font-size:11px}.logout{padding:10px;font-size:12px}.balance{padding:21px 18px}.section{padding:18px}.history{padding:19px}}
+
+.modal-backdrop{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,4,8,.78);backdrop-filter:blur(12px)}
+.modal-backdrop.open{display:flex}
+.confirm-modal{width:min(100%,460px);max-height:min(88vh,760px);overflow:auto;border:1px solid rgba(255,255,255,.13);border-radius:25px;background:linear-gradient(145deg,#1b222d,#0d121a 72%);box-shadow:0 28px 90px #000b,inset 0 1px 0 #ffffff12;padding:22px}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:19px}
+.modal-head h2{font-size:18px;margin:0 0 5px;letter-spacing:-.35px}.modal-head p{font-size:12px;color:var(--muted);margin:0}
+.modal-close{width:34px;height:34px;flex:none;border:1px solid var(--line);border-radius:11px;background:#ffffff09;color:#dce4ef;font-size:20px;cursor:pointer}
+.confirm-list{display:grid;gap:0;border:1px solid #ffffff10;border-radius:17px;background:#090e15a8;padding:4px 15px}
+.confirm-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid #ffffff0d;font-size:13px}
+.confirm-row:last-child{border-bottom:0}.confirm-row span{color:#9ca8b8}.confirm-row strong{text-align:right;color:#e8edf5;font-weight:650;overflow-wrap:anywhere}
+.confirm-row.total{margin-top:2px;padding-top:16px}.confirm-row.total strong{color:var(--green);font-size:17px}
+.modal-note{font-size:11px;line-height:1.55;color:#8793a4;margin:13px 2px 0}
+.modal-actions{display:flex;gap:10px;margin-top:19px}
+.modal-actions button{flex:1;min-width:0;padding:13px 12px;border-radius:14px;font-size:13px;font-weight:750;cursor:pointer}
+.modal-cancel{border:1px solid var(--line);background:#ffffff08;color:#dbe2ec}
+.modal-confirm{border:1px solid rgba(213,225,241,.22);background:linear-gradient(180deg,#c7d0dc,#8293aa);color:#111925}
+.action:disabled{opacity:.48;cursor:not-allowed;filter:saturate(.55)}
+@media(max-width:420px){.confirm-modal{padding:18px;border-radius:21px}.confirm-row{font-size:12px}}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="topbar">
+    <button class="icon-btn" aria-label="Kembali"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/><path d="M9 12h12"/></svg></button>
+    <div class="heading"><h1>Saldo &amp; Penarikan</h1><p>Kelola saldo kamu</p></div>
+    <button class="logout"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>Keluar</button>
+  </header>
+
+  <section class="card balance">
+    <div class="eyebrow">Saldo tersedia</div>
+    <div class="amount">Rp 0</div>
+    <div class="balance-bottom">
+      <div class="pending"><small>Pending</small><strong>Rp 0</strong></div>
+    </div>
+  </section>
+
+  <section class="card section">
+    <div class="section-head">
+      <div class="section-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M7 15h3"/></svg>Tarik Saldo</div>
+      <span class="status">Ditutup</span>
+    </div>
+    <label class="field-label" for="withdraw-amount">Jumlah penarikan (Rp)</label>
+    <div class="input-wrap">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/></svg>
+      <input id="withdraw-amount" name="withdraw_amount" type="number" min="25000" step="1000" inputmode="numeric" autocomplete="off" placeholder="Masukkan jumlah penarikan" aria-label="Jumlah penarikan">
+    </div>
+    <p class="hint">Minimal Rp 25.000</p>
+    <div class="breakdown">
+      <div class="break-row"><span>Biaya admin</span><strong id="admin-fee">Rp 1.000</strong></div>
+      <div class="break-row"><span>Saldo dipotong</span><strong id="deducted-amount">Rp 0</strong></div>
+      <div class="break-row total"><span>Diterima</span><strong id="received-amount">Rp 0</strong></div>
+    </div>
+    <button class="action" id="withdraw-open" type="button" disabled>Tarik Sekarang</button>
+  </section>
+
+  <section class="card history">
+    <h2>Riwayat Penarikan</h2>
+    <div class="empty">
+      <div class="empty-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5 5.5 4h13L21 7.5v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 8h5l2 3h4l2-3h5"/></svg></div>
+      <strong>Belum ada penarikan</strong>
+      <span>Riwayat penarikan akan muncul di sini</span>
+    </div>
+  </section>
+</main>
+
+<div class="modal-backdrop" id="withdraw-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <section class="confirm-modal">
+    <div class="modal-head">
+      <div><h2 id="confirm-title">Konfirmasi Penarikan</h2><p>Periksa kembali detail penarikan kamu</p></div>
+      <button class="modal-close" id="modal-close" type="button" aria-label="Tutup">&times;</button>
+    </div>
+    <div class="confirm-list">
+      <div class="confirm-row"><span>E-Wallet</span><strong id="confirm-ewallet">Belum diatur</strong></div>
+      <div class="confirm-row"><span>No Pay</span><strong id="confirm-nopay">Belum diatur</strong></div>
+      <div class="confirm-row"><span>Nama Pemilik</span><strong id="confirm-owner">Belum diatur</strong></div>
+      <div class="confirm-row"><span>Saldo yang ditarik</span><strong id="confirm-amount">Rp 0</strong></div>
+      <div class="confirm-row"><span>Fee</span><strong id="confirm-fee">Rp 1.000</strong></div>
+      <div class="confirm-row total"><span>Total Bersih</span><strong id="confirm-net">Rp 0</strong></div>
+    </div>
+    <p class="modal-note">Informasi E-Wallet dan data pemilik akan diambil dari pengaturan profil setelah backend dihubungkan.</p>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="modal-cancel" type="button">Kembali</button>
+      <button class="modal-confirm" id="modal-confirm" type="button">Konfirmasi</button>
+    </div>
+  </section>
+</div>
+
+
+
+
+<script>
+(() => {
+  const amountInput = document.getElementById('withdraw-amount');
+  const deducted = document.getElementById('deducted-amount');
+  const received = document.getElementById('received-amount');
+  const openButton = document.getElementById('withdraw-open');
+  const modal = document.getElementById('withdraw-modal');
+  const fee = 1000;
+  const rupiah = value => 'Rp ' + Math.max(0, value).toLocaleString('id-ID');
+
+  function updateBreakdown() {
+    const amount = Math.max(0, Number(amountInput.value) || 0);
+    const valid = amount >= 25000;
+    const net = valid ? Math.max(0, amount - fee) : 0;
+    deducted.textContent = rupiah(valid ? amount : 0);
+    received.textContent = rupiah(net);
+    openButton.disabled = !valid;
+    document.getElementById('confirm-amount').textContent = rupiah(amount);
+    document.getElementById('confirm-fee').textContent = rupiah(fee);
+    document.getElementById('confirm-net').textContent = rupiah(net);
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    openButton.focus();
+  }
+
+  amountInput.addEventListener('input', updateBreakdown);
+  openButton.addEventListener('click', () => {
+    if (openButton.disabled) return;
+    updateBreakdown();
+    modal.classList.add('open');
+    document.getElementById('modal-close').focus();
+  });
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+  modal.addEventListener('click', event => {
+    if (event.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+  // Placeholder action: wire this to the withdrawal backend when it is ready.
+  document.getElementById('modal-confirm').addEventListener('click', () => {
+    closeModal();
+  });
+
+  updateBreakdown();
+})();
+</script>
+
+
+</body>
+</html>

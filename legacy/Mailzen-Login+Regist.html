@@ -1,0 +1,989 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090c">
+<title>MailZen — Authentication</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #08090c;
+  --panel: #111318;
+  --surface: #191d24;
+  --white: #f4f5f7;
+  --muted: #9298a3;
+  --silver: #dce0e6;
+  --border: rgba(255,255,255,.10);
+  --red: #e16d75;
+  --green: #65bd8b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  padding: 25px 16px;
+  display: grid;
+  place-items: center;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--white);
+  background:
+    radial-gradient(ellipse at 15% 5%,rgba(163,177,198,.13),transparent 32%),
+    radial-gradient(ellipse at 90% 85%,rgba(110,121,139,.12),transparent 32%),
+    var(--bg);
+}
+
+button,input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* MAIN */
+
+.page {
+  width: min(100%,460px);
+  margin: auto;
+}
+
+/* BRAND */
+
+.brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.brand-name {
+  font: 800 21px 'Manrope',sans-serif;
+  letter-spacing: .09em;
+  background: linear-gradient(100deg,#fff,#929ba8);
+  color: transparent;
+  background-clip: text;
+}
+
+.brand-tag {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .13em;
+  margin-top: 3px;
+}
+
+/* CARD */
+
+.auth-card {
+  position: relative;
+  overflow: hidden;
+  padding: 26px;
+  border-radius: 27px;
+  background: linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.018));
+  border: 1px solid var(--border);
+  box-shadow: 0 25px 70px #0009,inset 0 1px #ffffff0c;
+  backdrop-filter: blur(20px);
+}
+
+.auth-card::before {
+  content: "";
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  top: -160px;
+  right: -110px;
+  border-radius: 50%;
+  background: radial-gradient(circle,#cbd5e1,transparent 70%);
+  opacity: .12;
+  pointer-events: none;
+}
+
+.heading {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.heading h1 {
+  font: 800 25px 'Manrope',sans-serif;
+  letter-spacing: -.04em;
+  margin-bottom: 7px;
+}
+
+.heading p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* TABS */
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 14px;
+  background: #080a0e;
+  border: 1px solid var(--border);
+  margin-bottom: 23px;
+}
+
+.tab {
+  border: 0;
+  padding: 11px;
+  border-radius: 10px;
+  color: #858d99;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.tab.active {
+  color: #15191f;
+  background: linear-gradient(145deg,#f0f2f5,#9da6b2);
+  box-shadow: inset 0 1px #fff,0 4px 12px #0008;
+}
+
+/* FORM */
+
+.form {
+  display: none;
+}
+
+.form.active {
+  display: block;
+  animation: fadeUp .25s ease;
+}
+
+@keyframes fadeUp {
+  from {opacity:0;transform:translateY(8px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+label {
+  color: #dce0e6;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.field input {
+  width: 100%;
+  height: 51px;
+  padding: 0 15px;
+  border-radius: 13px;
+  border: 1px solid #ffffff19;
+  outline: none;
+  color: white;
+  background: linear-gradient(145deg,#0c0f14,#171b22);
+  box-shadow: inset 0 2px 8px #0007;
+  transition: .2s;
+}
+
+.field input:focus {
+  border-color: #b9c3d277;
+  box-shadow: 0 0 0 3px #cbd5e118;
+}
+
+.field input::placeholder {
+  color: #626b78;
+}
+
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input {
+  padding-right: 52px;
+}
+
+.toggle-pass {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff13;
+  border-radius: 10px;
+  color: #c1c8d2;
+  background: linear-gradient(145deg,#303743,#171b22);
+}
+
+.toggle-pass svg {
+  width: 18px;
+  height: 18px;
+}
+
+.forgot {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #c3cad4;
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* BUTTON */
+
+.primary-btn {
+  width: 100%;
+  min-height: 51px;
+  border: 1px solid #ffffff55;
+  border-radius: 14px;
+  color: #15191f;
+  background: linear-gradient(145deg,#f0f2f5,#929ba8 55%,#dce1e8);
+  box-shadow: 0 7px 17px #0008,inset 0 1px #fff;
+  font-weight: 800;
+  font-size: 13px;
+  transition: transform .18s,filter .18s,box-shadow .18s;
+}
+
+.primary-btn:active {
+  transform: scale(.975);
+  filter: brightness(.93);
+}
+
+.primary-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+/* CHECKBOX */
+
+.checkline {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 3px 0 18px;
+  color: #9ba3af;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.checkline input {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  margin-top: 2px;
+  accent-color: #cbd5e1;
+}
+
+.checkline a {
+  color: #e0e4ea;
+}
+
+/* NOTICE */
+
+.notice {
+  display: none;
+  padding: 11px 13px;
+  margin-bottom: 14px;
+  border-radius: 11px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.notice.show {
+  display: block;
+}
+
+.notice.error {
+  color: #f0b6b6;
+  background: #4a202033;
+  border: 1px solid #a84c4c55;
+}
+
+.notice.success {
+  color: #bce4cd;
+  background: #1c493022;
+  border: 1px solid #5a9b7655;
+}
+
+/* SECURITY */
+
+.security-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 20px;
+  color: #737c89;
+  font-size: 10px;
+}
+
+.security-note svg {
+  width: 15px;
+  height: 15px;
+}
+
+.footer {
+  margin-top: 20px;
+  color: #737c89;
+  font-size: 11px;
+  text-align: center;
+}
+
+/* OTP OVERLAY */
+
+.otp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.otp-overlay.show {
+  display: flex;
+  animation: overlayFade .25s ease;
+}
+
+@keyframes overlayFade {
+  from {opacity:0}
+  to {opacity:1}
+}
+
+.otp-card {
+  position: relative;
+  overflow: hidden;
+  width: min(100%,390px);
+  padding: 27px 23px;
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,.13);
+  background: linear-gradient(145deg,#1d222b,#0c0e12);
+  box-shadow: 0 25px 80px #000c,inset 0 1px #ffffff10;
+  animation: otpEnter .3s ease;
+}
+
+@keyframes otpEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.otp-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #ffffff18;
+  border-radius: 10px;
+  color: #b9c1cc;
+  background: #ffffff09;
+  font-size: 20px;
+}
+
+.otp-icon {
+  width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+  border-radius: 20px;
+  color: #171b22;
+  background: linear-gradient(145deg,#f0f2f5,#929ba8,#dce1e8);
+  box-shadow: 0 9px 24px #0008,inset 0 1px #fff;
+}
+
+.otp-icon svg {
+  width: 31px;
+  height: 31px;
+}
+
+.otp-heading {
+  text-align: center;
+  margin-bottom: 23px;
+}
+
+.otp-heading h2 {
+  font: 800 21px 'Manrope',sans-serif;
+  margin-bottom: 8px;
+}
+
+.otp-heading p {
+  color: #9298a3;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.otp-email {
+  color: #e5e8ed;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.otp-input {
+  width: 100%;
+  height: 61px;
+  margin-bottom: 15px;
+  border: 1px solid #ffffff20;
+  outline: none;
+  border-radius: 14px;
+  background: #090b0f;
+  color: #f4f5f7;
+  font: 800 25px 'Manrope',sans-serif;
+  letter-spacing: 12px;
+  text-align: center;
+  transition: .2s;
+}
+
+.otp-input:focus {
+  border-color: #cbd5e177;
+  box-shadow: 0 0 0 3px #cbd5e119;
+}
+
+.otp-input::placeholder {
+  color: #444b56;
+}
+
+.otp-message {
+  display: none;
+  padding: 11px 12px;
+  border-radius: 11px;
+  margin-bottom: 13px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.otp-message.show {
+  display: block;
+}
+
+.otp-message.error {
+  color: #f0b6b6;
+  background: #4a202033;
+  border: 1px solid #a84c4c55;
+}
+
+.otp-message.success {
+  color: #bce4cd;
+  background: #1c493022;
+  border: 1px solid #5a9b7655;
+}
+
+.otp-resend {
+  display: block;
+  margin: 14px auto 17px;
+  padding: 5px;
+  border: 0;
+  color: #c5ccd6;
+  background: transparent;
+  font-size: 12px;
+}
+
+.otp-resend:disabled {
+  color: #656d79;
+  cursor: not-allowed;
+}
+
+.otp-cancel {
+  width: 100%;
+  margin-top: 11px;
+  padding: 12px;
+  border: 1px solid #ffffff16;
+  border-radius: 13px;
+  color: #aab1bc;
+  background: transparent;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.otp-cancel:active {
+  transform: scale(.98);
+}
+
+@media(max-width:390px) {
+  body {padding:18px 12px}
+  .auth-card {padding:21px 18px}
+  .heading h1 {font-size:23px}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation:none!important;
+    transition:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="page">
+
+  <!-- BRAND -->
+
+  <header class="brand">
+    <img
+  src="https://files.catbox.moe/js8h6k.jpeg"
+  alt="MailZen Logo"
+  class="brand-logo"
+/>
+      <div class="brand-name">MAILZEN</div>
+      <div class="brand-tag">SECURE ACCOUNT ACCESS</div>
+    </div>
+  </header>
+
+  <section class="auth-card">
+
+    <div class="heading">
+      <h1 id="headingTitle">Selamat datang kembali</h1>
+      <p id="headingDesc">
+        Masuk ke akun MailZen untuk melanjutkan aktivitasmu.
+      </p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="loginTab"
+        type="button" onclick="switchMode('login')">
+        Masuk
+      </button>
+
+      <button class="tab" id="registerTab"
+        type="button" onclick="switchMode('register')">
+        Daftar
+      </button>
+    </div>
+
+    <div class="notice" id="notice"></div>
+
+    <!-- LOGIN FORM -->
+
+    <form class="form active" id="loginForm">
+
+      <div class="field">
+        <div class="label-row">
+          <label for="loginEmail">Email</label>
+        </div>
+        <input id="loginEmail" type="email"
+          autocomplete="email"
+          placeholder="nama@email.com" required>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="loginPassword">Kata sandi</label>
+          <button class="forgot" type="button"
+            onclick="showNotice('Pemulihan kata sandi belum dihubungkan.','success')">
+            Lupa kata sandi?
+          </button>
+        </div>
+
+        <div class="password-wrap">
+          <input id="loginPassword" type="password"
+            autocomplete="current-password"
+            placeholder="Masukkan kata sandi" required>
+
+          <button class="toggle-pass" type="button"
+            onclick="togglePassword('loginPassword',this)">
+            <svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="primary-btn" type="submit">
+        Masuk ke MailZen ↗
+      </button>
+
+    </form>
+
+    <!-- REGISTER FORM -->
+
+    <form class="form" id="registerForm">
+
+      <div class="field">
+        <div class="label-row">
+          <label for="registerName">Nama lengkap</label>
+        </div>
+        <input id="registerName" type="text"
+          autocomplete="name"
+          placeholder="Masukkan nama lengkap" required>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="registerEmail">Gmail</label>
+        </div>
+        <input id="registerEmail" type="email"
+          autocomplete="email"
+          placeholder="nama@gmail.com" required>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="registerPassword">Kata sandi</label>
+        </div>
+
+        <div class="password-wrap">
+          <input id="registerPassword" type="password"
+            autocomplete="new-password"
+            placeholder="Minimal 8 karakter"
+            minlength="8" required>
+
+          <button class="toggle-pass" type="button"
+            onclick="togglePassword('registerPassword',this)">
+            <svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="registerConfirm">Konfirmasi kata sandi</label>
+        </div>
+
+        <div class="password-wrap">
+          <input id="registerConfirm" type="password"
+            autocomplete="new-password"
+            placeholder="Ulangi kata sandi" required>
+
+          <button class="toggle-pass" type="button"
+            onclick="togglePassword('registerConfirm',this)">
+            <svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <label class="checkline">
+        <input id="agreeTerms" type="checkbox" required>
+        <span>
+          Saya menyetujui Syarat & Ketentuan serta kebijakan privasi MailZen.
+        </span>
+      </label>
+
+      <button class="primary-btn" type="submit">
+        Buat Akun ↗
+      </button>
+
+    </form>
+
+    <div class="security-note">
+      <svg viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.7"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+      Koneksi akun dilindungi oleh MailZen
+    </div>
+
+  </section>
+
+  <p class="footer">© 2026 MailZen. All rights reserved.</p>
+
+</main>
+
+<!-- OTP OVERLAY -->
+
+<div class="otp-overlay" id="otpOverlay">
+  <div class="otp-card">
+
+    <button class="otp-close" type="button"
+      onclick="closeOTP()" aria-label="Tutup">
+      ×
+    </button>
+
+    <div class="otp-icon">
+      <svg viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="3"/>
+        <path d="m4 7 8 6 8-6"/>
+      </svg>
+    </div>
+
+    <div class="otp-heading">
+      <h2>Verifikasi Email</h2>
+      <p>
+        Masukkan kode verifikasi 6 digit yang dikirim ke Gmail:
+        <br>
+        <span class="otp-email" id="otpEmail">
+          nama@gmail.com
+        </span>
+      </p>
+    </div>
+
+    <div class="otp-message" id="otpMessage"></div>
+
+    <form id="otpForm">
+      <input class="otp-input"
+        id="otpCode"
+        type="text"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        maxlength="6"
+        pattern="[0-9]{6}"
+        placeholder="••••••"
+        aria-label="Kode OTP 6 digit"
+        required>
+
+      <button class="primary-btn" type="submit">
+        Verifikasi & Daftar
+      </button>
+    </form>
+
+    <button class="otp-resend" id="otpResend"
+      type="button" onclick="resendOTP()">
+      Kirim ulang kode
+    </button>
+
+    <button class="otp-cancel" type="button"
+      onclick="closeOTP()">
+      Kembali
+    </button>
+
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let pendingRegistration = null;
+let resendCooldown = null;
+
+function switchMode(mode) {
+  const login = mode === 'login';
+
+  $('loginForm').classList.toggle('active',login);
+  $('registerForm').classList.toggle('active',!login);
+
+  $('loginTab').classList.toggle('active',login);
+  $('registerTab').classList.toggle('active',!login);
+
+  $('headingTitle').textContent = login
+    ? 'Selamat datang kembali'
+    : 'Buat akun MailZen';
+
+  $('headingDesc').textContent = login
+    ? 'Masuk ke akun MailZen untuk melanjutkan aktivitasmu.'
+    : 'Daftar akun baru dan mulai gunakan layanan MailZen.';
+
+  $('notice').className = 'notice';
+}
+
+function showNotice(message,type) {
+  $('notice').textContent = message;
+  $('notice').className = 'notice show '+type;
+}
+
+function togglePassword(id,button) {
+  const input = $(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+
+  button.setAttribute('aria-label',
+    input.type === 'password'
+      ? 'Tampilkan kata sandi'
+      : 'Sembunyikan kata sandi'
+  );
+}
+
+/* OPEN OTP */
+
+function openOTP(email) {
+  $('otpEmail').textContent = email;
+  $('otpCode').value = '';
+  $('otpMessage').className = 'otp-message';
+
+  $('otpOverlay').classList.add('show');
+
+  setTimeout(() => $('otpCode').focus(),100);
+}
+
+function closeOTP() {
+  $('otpOverlay').classList.remove('show');
+}
+
+/* REGISTER */
+
+$('registerForm').addEventListener('submit',function(e) {
+  e.preventDefault();
+
+  if (!this.reportValidity()) return;
+
+  const email = $('registerEmail').value.trim();
+  const password = $('registerPassword').value;
+  const confirm = $('registerConfirm').value;
+
+  if (password.length < 8) {
+    showNotice('Kata sandi minimal 8 karakter.','error');
+    return;
+  }
+
+  if (password !== confirm) {
+    showNotice('Konfirmasi kata sandi belum cocok.','error');
+    return;
+  }
+
+  if (!$('agreeTerms').checked) {
+    showNotice('Centang persetujuan terlebih dahulu.','error');
+    return;
+  }
+
+  pendingRegistration = {
+    name: $('registerName').value.trim(),
+    email: email
+  };
+
+  openOTP(email);
+  startResendCooldown();
+
+  // Frontend only:
+  // Belum mengirim OTP sungguhan.
+});
+
+/* OTP INPUT */
+
+$('otpCode').addEventListener('input',function() {
+  this.value = this.value.replace(/\D/g,'').slice(0,6);
+});
+
+/* OTP MESSAGE */
+
+function otpMessage(message,type='error') {
+  $('otpMessage').textContent = message;
+  $('otpMessage').className = 'otp-message show '+type;
+}
+
+/* OTP SUBMIT */
+
+$('otpForm').addEventListener('submit',function(e) {
+  e.preventDefault();
+
+  const code = $('otpCode').value;
+
+  if (!/^\d{6}$/.test(code)) {
+    otpMessage('Masukkan kode OTP 6 digit.');
+    return;
+  }
+
+  if (!pendingRegistration) {
+    otpMessage('Data pendaftaran tidak ditemukan.');
+    return;
+  }
+
+  otpMessage(
+    'UI verifikasi siap. Hubungkan ke backend untuk memvalidasi kode OTP.',
+    'success'
+  );
+});
+
+/* RESEND OTP */
+
+function startResendCooldown() {
+  clearInterval(resendCooldown);
+
+  let seconds = 60;
+  const button = $('otpResend');
+
+  button.disabled = true;
+  button.textContent = `Kirim ulang dalam ${seconds} detik`;
+
+  resendCooldown = setInterval(() => {
+    seconds--;
+
+    if (seconds <= 0) {
+      clearInterval(resendCooldown);
+      button.disabled = false;
+      button.textContent = 'Kirim ulang kode';
+      return;
+    }
+
+    button.textContent = `Kirim ulang dalam ${seconds} detik`;
+  },1000);
+}
+
+function resendOTP() {
+  if (!pendingRegistration) return;
+
+  otpMessage(
+    'Pengiriman ulang OTP belum terhubung ke backend.'
+  );
+}
+
+/* CLOSE BACKDROP */
+
+$('otpOverlay').addEventListener('click',function(e) {
+  if (e.target === this) closeOTP();
+});
+
+/* ESCAPE */
+
+document.addEventListener('keydown',function(e) {
+  if (e.key === 'Escape' && $('otpOverlay').classList.contains('show')) {
+    closeOTP();
+  }
+});
+
+/* LOGIN FRONTEND */
+
+$('loginForm').addEventListener('submit',function(e) {
+  e.preventDefault();
+
+  if (!this.reportValidity()) return;
+
+  showNotice(
+    'Form login siap dihubungkan ke backend.',
+    'success'
+  );
+});
+</script>
+
+</body>
+</html>

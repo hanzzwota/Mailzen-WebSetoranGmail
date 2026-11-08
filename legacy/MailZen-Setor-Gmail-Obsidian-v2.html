@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Setor Gmail</title>
+<style>
+
+:root{--ink:#f1f3f5;--muted:#9299a3;--blue:#d7dce2;--line:#30343a;--panel:#15181c;--silver:#c7cdd4}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 50% 0%,#343a42 0,transparent 42%),radial-gradient(ellipse at 90% 40%,#20252b 0,transparent 40%),linear-gradient(145deg,#090a0c,#101317 55%,#08090b);min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}button:active{transform:scale(.975);filter:brightness(1.15)}
+header{height:62px;position:sticky;top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(13,15,18,.84);backdrop-filter:blur(18px);border-bottom:1px solid #ffffff0d;box-shadow:0 8px 28px #0006}
+.brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:850;letter-spacing:.2px}.logo{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#111;background:linear-gradient(145deg,#f1f3f5,#8c949e 55%,#dfe3e8);box-shadow:inset 0 1px 1px #fff,0 5px 18px #0009}.wa{border:1px solid #343a42;border-radius:24px;background:linear-gradient(145deg,#20242a,#121519);padding:9px 14px;color:#e7eaee;font-size:12px;font-weight:700;box-shadow:inset 0 1px #ffffff12,0 5px 16px #0006}
+main{width:min(900px,calc(100% - 24px));margin:34px auto 22px;padding:24px 17px 27px;border:1px solid #ffffff16;border-radius:27px;background:linear-gradient(145deg,rgba(27,31,36,.94),rgba(15,18,22,.96));backdrop-filter:blur(18px);box-shadow:0 22px 65px #0008,inset 0 1px #ffffff0b}
+.notice{display:flex;align-items:center;gap:12px;padding:14px;border-radius:19px;margin-bottom:12px}.warning{background:linear-gradient(120deg,#27251f,#1d1c19);border:1px solid #62533a}.rules{background:linear-gradient(120deg,#25282d,#191c21);border:1px solid #454b54;box-shadow:inset 0 1px #ffffff0c,0 8px 22px #0004}.nicon{width:39px;height:39px;flex:none;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#30343a,#171a1e);border:1px solid #ffffff16;color:#d6b66e;font-size:21px}.rules .nicon{background:linear-gradient(145deg,#e5e8ec,#777f89);color:#15181c;border:1px solid #fff8;box-shadow:0 5px 16px #0007}.nc{min-width:0;flex:1}.notice b{display:block;font-size:14px;margin-bottom:3px;color:#edf0f3}.notice p{font-size:12px;line-height:1.4;color:#9ba3ad;margin:0}.purple{border:1px solid #737b86;border-radius:22px;background:linear-gradient(145deg,#e4e7eb,#8e969f 60%,#cbd0d6);color:#101317;font-weight:850;font-size:12px;padding:8px 15px;white-space:nowrap;box-shadow:inset 0 1px #fff,0 5px 14px #0007}
+h1{font-size:19px;margin:15px 0 5px;letter-spacing:-.35px;color:#f4f5f6}.intro{font-size:14px;line-height:1.5;color:#9ca4ae;margin:0 0 13px}.password{border:1px solid #62563b;background:linear-gradient(120deg,#24221c,#1c1b17);border-radius:17px;padding:11px 13px;color:#d7bd83;font-size:12px;line-height:1.45;margin:13px 0}.password strong{display:block;color:#e6d3a8}.password code{font-size:13px;color:#f0dba9}
+.gcard{padding:16px;border-radius:21px;border:1px solid #454b54;background:linear-gradient(145deg,#252a30,#171a1f);margin-top:13px;box-shadow:inset 0 1px #ffffff0c,0 12px 26px #0004}.gcard h2{color:#e5e8ec;font-size:17px;margin:0 0 6px}.gcard p{font-size:14px;line-height:1.5;color:#a4abb4;margin:0 0 8px}.steps{padding-left:22px;margin:7px 0;color:#9ba3ad;font-size:13px;line-height:1.65}.pwline{font-size:13px;color:#aeb5bd;margin:9px 0 12px}.generate{width:100%;border:1px solid #858d97;border-radius:13px;padding:11px;background:linear-gradient(105deg,#e3e6ea,#8e969f 55%,#d1d5da);color:#111419;font-weight:850;box-shadow:inset 0 1px #fff,0 7px 18px #0007}
+.important{margin:19px 0 15px;text-align:center;border:1px solid #633b3e;background:linear-gradient(120deg,#2c1d20,#211719);border-radius:18px;padding:15px;color:#f08b91}.important b{font-size:14px}.important p{font-size:13px;line-height:1.45;margin:5px 0 0;color:#d6a0a3}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:15px 0}.type{min-height:112px;text-align:left;border:1px solid #363d45;border-radius:19px;background:linear-gradient(145deg,#20252a,#15191d);padding:13px;color:#e5e8ec;box-shadow:inset 0 1px #ffffff0a}.type.active{border:1px solid #aeb6c0;background:linear-gradient(145deg,#2b333c,#1b2026);padding:13px;box-shadow:inset 0 1px #ffffff1c,0 0 0 1px #aeb6c033,0 8px 20px #0005}.type:disabled{opacity:.45;cursor:not-allowed}.typehead{display:flex;align-items:center;gap:9px;margin-bottom:9px}.typeicon{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#e3e6ea,#858e98);color:#111820;flex:none;font-size:19px;box-shadow:inset 0 1px #fff,0 4px 12px #0006}.type strong{font-size:14px}.type small{display:block;font-size:11px;color:#929ba6;margin-top:2px}.price{font-size:12px;font-weight:750;color:#d8dde2}
+textarea{display:block;width:100%;height:228px;resize:vertical;border:1px solid #343b43;border-radius:16px;background:linear-gradient(145deg,#101317,#171b20);padding:13px;font:14px/1.65 ui-monospace,Consolas,monospace;color:#e3e7eb;box-shadow:inset 0 2px 9px #0008}textarea::placeholder{color:#707984}textarea:focus,input:focus{outline:none;border-color:#aeb7c2;box-shadow:0 0 0 3px #c7d0da20}.submit{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0}.send{border:1px solid #737c87;border-radius:13px;padding:10px 16px;background:linear-gradient(100deg,#dce0e5,#858e98);color:#111419;font-size:13px;font-weight:850;opacity:.55}.info{font-size:13px;line-height:1.8;color:#c4cad1}.info span{color:#858e99}
+footer{width:min(900px,calc(100% - 24px));margin:0 auto 15px;padding:11px 7px 8px;border:1px solid #ffffff17;border-radius:25px;background:rgba(17,20,24,.88);box-shadow:0 14px 35px #0008,inset 0 1px #ffffff0d;display:flex;align-items:flex-end;justify-content:space-around;position:sticky;bottom:9px;z-index:3;backdrop-filter:blur(18px)}.nav{border:0;background:none;color:#8d96a1;display:grid;justify-items:center;gap:5px;font-size:11px;min-width:48px}.nav svg{width:21px;height:21px}.nav.center{color:#e6e9ed;font-weight:800}.navcircle{width:72px;height:72px;margin-top:-43px;border:3px solid #333a43;border-radius:22px;display:grid;place-items:center;color:#101317;background:linear-gradient(145deg,#f0f2f5,#89929d 58%,#d9dde2);box-shadow:inset 0 1px #fff,0 9px 22px #0009}.navcircle svg{width:27px;height:27px}
+.overlay{position:fixed;inset:0;z-index:10;background:#000a;backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:17px}.overlay.open{display:flex}.modal{width:min(100%,440px);max-height:88vh;overflow:auto;padding:21px;border-radius:23px;border:1px solid #ffffff20;background:linear-gradient(145deg,#252a30,#13171b);box-shadow:0 25px 80px #000b,inset 0 1px #ffffff0d;animation:in .22s ease-out}@keyframes in{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.mhead{display:flex;justify-content:space-between;gap:12px;margin-bottom:16px}.mhead h3{font-size:19px;margin:0 0 4px;color:#f0f2f4}.mhead p{font-size:13px;color:#9ca5af;margin:0}.close{width:34px;height:34px;border:1px solid #444c55;border-radius:11px;background:#1a1e23;color:#dce1e6;font-size:21px}.rlist{display:grid;gap:9px}.rule{display:flex;gap:11px;padding:11px;border:1px solid #373f48;border-radius:14px;background:#1a1f24}.num{width:29px;height:29px;flex:none;border-radius:50%;background:linear-gradient(145deg,#dfe3e8,#89929c);color:#111820;display:grid;place-items:center;font-size:12px;font-weight:850}.rule b{display:block;font-size:13px;margin:1px 0 3px;color:#e9edf0}.rule span{display:block;font-size:12px;line-height:1.45;color:#9ba4ae}
+.qtygrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:15px 0}.qty{border:1px solid #3c444d;border-radius:12px;background:#1a1f24;color:#cbd1d8;padding:12px 4px;font-weight:800}.qty.selected{border-color:#c1c8d0;background:linear-gradient(145deg,#e5e8ec,#89929d);color:#111820;box-shadow:inset 0 1px #fff,0 5px 14px #0007}.label{display:block;font-size:13px;font-weight:750;margin:13px 0 7px;color:#dfe3e7}.custom{width:100%;height:46px;border:1px solid #3d454e;border-radius:12px;background:#101418;padding:0 13px;color:#f0f2f4;font-size:14px}.helper{font-size:11px;color:#8f99a4;margin:7px 0 0}.primary,.secondary{width:100%;border-radius:13px;padding:13px;margin-top:17px;font-size:14px;font-weight:850}.primary{border:1px solid #b9c1ca;color:#11161b;background:linear-gradient(105deg,#e5e8ec,#858e98 60%,#d2d7dc);box-shadow:inset 0 1px #fff,0 6px 15px #0006}.secondary{border:1px solid #3d454e;margin-top:8px;color:#d4dae0;background:#1b2025}
+@media(max-width:420px){main{padding:17px 15px 23px}.notice{padding:12px}.notice b{font-size:13px}.notice p{font-size:11px}.purple{padding:8px 12px}.type{padding:11px}.modal{padding:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+
+.logo-img{width:42px;height:42px;object-fit:cover;border-radius:12px;border:1px solid #ffffff24;box-shadow:0 5px 18px #0009}
+.wa{display:inline-flex;align-items:center;gap:7px}.wa-icon{width:17px;height:17px;color:#9bc8e8;flex:none}
+.rules-doc{background:linear-gradient(145deg,#e5e8ec,#777f89)!important;color:#15181c!important}
+.rules-doc svg{width:22px;height:25px}
+.typeicon svg{width:21px;height:21px}.robot-icon{background:linear-gradient(145deg,#e3e6ea,#858e98)!important;color:#111820!important}
+.generated-card[hidden]{display:none!important}
+.generated-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.generated-head h2{margin:0;font-size:17px;color:#e8ebee}
+.generated-total{font-size:12px;color:#a8b0b9;white-space:nowrap}.generated-total strong{color:#f0f2f4}
+.generated-list{display:grid;gap:7px;max-height:340px;overflow:auto;padding-right:3px}
+.generated-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto 22px;align-items:center;gap:7px;padding:8px 9px;border:1px solid #303943;border-radius:13px;background:linear-gradient(100deg,#202831,#171d23)}
+.generated-email{min-width:0;display:flex;align-items:center;gap:7px;border:0;background:none;color:#dce2e8;padding:2px 0;text-align:left;font:13px ui-monospace,Consolas,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy-one{font-size:14px;color:#aeb8c3;flex:none}
+.state-pill{border:1px solid #4b5662;border-radius:20px;background:#4d5965;color:#f1f3f5;padding:5px 9px;font-size:10px;font-weight:800;white-space:nowrap}
+.submit-state{border:1px solid #414b56;border-radius:20px;background:#202832;color:#cbd3dc;padding:5px 9px;font-size:10px;font-weight:750;white-space:nowrap}
+.submit-state.pending{background:#3b321d;border-color:#74613a;color:#f0d18c}
+.submit-state.rejected{background:#3b2023;border-color:#704047;color:#f1a1a8}
+.submit-state.approved{background:#1d382d;border-color:#3d7558;color:#9be0b9}
+.delete-row{width:22px;height:25px;border:0;background:none;color:#929eaa;padding:0;font-size:16px}
+.generated-hint{font-size:12px;line-height:1.45;color:#a2abb5;margin:13px 0}
+.generated-actions{display:grid;gap:7px}
+.list-action{width:100%;padding:11px;border:1px solid #3a4652;border-radius:13px;background:linear-gradient(145deg,#222a32,#171d23);color:#e0e5ea;font-size:13px;font-weight:750;box-shadow:inset 0 1px #ffffff0a}
+.list-action:hover{border-color:#8a96a3;box-shadow:0 5px 16px #0005}
+.send:not(:disabled){opacity:1;cursor:pointer}
+@media(max-width:480px){.generated-row{grid-template-columns:minmax(0,1fr) auto 22px;gap:5px}.state-pill{display:none}.generated-email{font-size:12px}.generated-total{font-size:11px}.generated-list{max-height:320px}}
+
+
+.num{border-radius:50%;border:2px solid #454d57;box-shadow:inset 0 1px #fff,0 0 0 2px #ffffff0b}
+.pw-copyline{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.copy-password{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid #48525d;border-radius:10px;background:linear-gradient(145deg,#242a31,#151a1f);color:#dce2e8;font-size:11px;font-weight:800}
+.copy-password svg,.copy-icon,.copy-one svg,.delete-row svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.list-action{display:flex;align-items:center;justify-content:center;gap:9px}
+.copy-one{display:grid;place-items:center;width:20px;height:20px}
+.delete-row{display:grid;place-items:center;width:28px;height:29px;border:1px solid #4b3437;border-radius:9px;background:#281c1f;color:#e39a9f;padding:0}
+.registration-state[hidden]{display:none!important}
+.registration-state.unregistered{background:#46525e;border-color:#697786;color:#f2f4f6}
+.registration-state.error{background:#42272a;border-color:#875057;color:#f1a1a8}
+.registration-state.disabled{background:#292d33;border-color:#59616b;color:#aeb7c1}
+.registration-state.captcha{background:#3b321d;border-color:#79663c;color:#efd28f}
+
+</style></head>
+<body>
+<header><div class="brand"><img class="logo-img" src="https://files.catbox.moe/js8h6k.jpeg" alt="Logo"><span>S3L <span style="color:#8eabbf">ZERO99</span></span></div><button class="wa" type="button"><svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.1 11.8a8.1 8.1 0 0 1-12 7.1L4 20l1.1-4A8.1 8.1 0 1 1 20.1 11.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8.5c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 1.9.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .4-.2 1.1-.7 1.5-.5.4-1.1.6-1.8.5-1.1-.2-2.5-.8-3.8-2-1.1-1.1-1.8-2.4-2-3.4-.2-.8.1-1.5.5-2Z" fill="currentColor"/></svg>Saluran WA</button></header>
+<main>
+<div class="notice warning"><span class="nicon">⚠</span><div class="nc"><b>Storan sedang ditutup</b><p>OPEN SENIN - JUMAT JAM 00:00-15:00 BISA BERUBAH MORE INFO DI SALURAN</p></div></div>
+<div class="notice rules"><span class="nicon rules-doc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2.8h8l3 3v15.4H7a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15 2.8v4h3M8.5 10h6.8M8.5 13.5h6.8M8.5 17h6.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div class="nc"><b>Cek Rules dulu sebelum stor</b><p>Wajib dibaca agar Gmail tidak ditolak.</p></div><button class="purple" id="open-rules">Buka Rules</button></div>
+<h1>Setor Daftar Gmail</h1><p class="intro">Tempel daftar, satu Gmail per baris. Duplikat otomatis dihapus. Hanya Gmail hasil "Generate Gmail" milik akun ini yang bisa disetor.</p>
+<div class="password"><strong>🔑 Password wajib untuk Gmail yang disetor:</strong><code>goldacok</code><br>Pastikan setiap Gmail menggunakan password di atas. Gmail dengan password berbeda akan ditolak.</div>
+<section class="gcard" id="generate-intro"><h2>✧ Generate Gmail</h2><p>Ambil nama Gmail dari stok yang sudah disiapkan admin, lalu daftarkan akun Gmail asli memakai nama tersebut sebelum disetorkan pada kolom storan di bagian bawah halaman.</p><ol class="steps"><li>Tekan tombol Generate Gmail dan pilih jumlah yang Anda butuhkan.</li><li>Salin nama Gmail satu per satu, atau salin semuanya sekaligus.</li><li>Daftarkan akun Gmail dengan nama tersebut dan password wajib di atas.</li><li>Tempel Gmail yang sudah jadi ke kolom storan di bawah, lalu kirim.</li></ol><div class="pwline pw-copyline"><span>Password wajib: <code id="required-password">goldacok</code></span><button class="copy-password" id="copy-password" type="button" aria-label="Salin password"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Salin</button></div><button class="generate" id="open-generate" type="button">✧ &nbsp; Generate Gmail</button></section>
+<section class="gcard generated-card" id="generated-card" hidden>
+  <div class="generated-head"><h2>Generated Gmail</h2><div class="generated-total">Total: <strong id="generated-total">0</strong> · Belum disetor: <strong id="unsubmitted-total">0</strong></div></div>
+  <div class="generated-list" id="generated-list" aria-live="polite"></div>
+  <p class="generated-hint">Ketuk salah satu Gmail untuk menyalinnya satu per satu, atau gunakan tombol di bawah untuk menyalin banyak sekaligus.</p>
+  <div class="generated-actions">
+    <button class="list-action" id="copy-all" type="button"><svg class="copy-icon" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Salin Semua Gmail</button>
+    <button class="list-action" id="copy-unsubmitted" type="button"><svg class="copy-icon" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Salin Gmail Belum Disetor</button>
+    <button class="list-action" id="generate-again" type="button">✧ &nbsp; Generate Lagi</button>
+  </div>
+</section>
+<div class="important"><b>⚠️ DAFTARKAN TERLEBIH DAHULU SEBELUM STOR!</b><p>Dilarang menyetorkan langsung dari generate tanpa mendaftarkannya.<br>Pelanggaran dapat diblokir!</p></div>
+<div class="types"><button class="type active"><div class="typehead"><span class="typeicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/></svg></span><div><strong>PW : goldacok</strong><small>Untuk Gmail dengan status Good</small></div></div><div class="price">Harga: Rp4.000</div></button><button class="type" disabled><div class="typehead"><span class="typeicon robot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M8 16h8M2 12h2m16 0h2"/></svg></span><div><strong>CAPTCHA</strong><small>Untuk Gmail dengan status Good</small></div></div><div class="price">Harga: Rp0</div><small style="color:#c77b83;display:block;margin-top:7px">Sedang dinonaktifkan Admin</small></button></div>
+<textarea id="gmail-list" placeholder="zenmail88@gmail.com&#10;zenmail89@gmail.com" aria-label="Daftar Gmail, satu alamat per baris"></textarea>
+<div class="submit"><div style="font-size:14px;color:#68798a">Terdeteksi: <strong id="line-count">0</strong> baris</div><button class="send" disabled>➤ &nbsp; Kirim Setoran</button></div><div class="info">PW : goldacok : Rp4.000 Jika di ACC<br><span>Estimasi pengecekan 24–30 jam.</span></div>
+</main>
+
+<div class="overlay" id="rules-overlay" role="dialog" aria-modal="true" aria-labelledby="rules-title"><section class="modal"><div class="mhead"><div><h3 id="rules-title">Rules Setor Gmail</h3><p>Baca ketentuan berikut sebelum mengirim setoran.</p></div><button class="close" data-close="rules-overlay" aria-label="Tutup">×</button></div><div class="rlist">
+<div class="rule"><span class="num">1</span><div><b>Periksa ketentuan penyetoran</b><span>Baca informasi dan persyaratan yang ditampilkan pada halaman sebelum melanjutkan.</span></div></div>
+<div class="rule"><span class="num">2</span><div><b>Pastikan data sesuai</b><span>Periksa kembali alamat dan informasi yang dimasukkan agar tidak terjadi kesalahan.</span></div></div>
+<div class="rule"><span class="num">3</span><div><b>Gunakan format yang benar</b><span>Masukkan satu alamat pada setiap baris dan pastikan tidak ada spasi yang tidak diperlukan.</span></div></div>
+<div class="rule"><span class="num">4</span><div><b>Perhatikan status layanan</b><span>Waktu operasional dan proses pemeriksaan dapat berubah mengikuti informasi admin.</span></div></div>
+</div><button class="primary" data-close="rules-overlay">Saya Mengerti</button></section></div>
+<div class="overlay" id="generate-overlay" role="dialog" aria-modal="true" aria-labelledby="generate-title"><section class="modal"><div class="mhead"><div><h3 id="generate-title">Generate Gmail</h3><p>Pilih jumlah yang ingin diminta dari stok.</p></div><button class="close" data-close="generate-overlay" aria-label="Tutup">×</button></div>
+<div class="qtygrid" role="group" aria-label="Pilihan jumlah"><button class="qty selected" data-qty="1">1</button><button class="qty" data-qty="5">5</button><button class="qty" data-qty="15">15</button><button class="qty" data-qty="20">20</button><button class="qty" data-qty="30">30</button></div>
+<label class="label" for="custom-qty">Atau isi jumlah sendiri</label><input class="custom" id="custom-qty" type="number" min="1" max="50" step="1" inputmode="numeric" placeholder="Masukkan jumlah (1–50)"><p class="helper">Jumlah maksimal 50 dalam satu permintaan.</p>
+<button class="primary" id="generate-submit">Generate 1</button><button class="secondary" data-close="generate-overlay">Batal</button></section></div>
+
+<script>
+(()=>{
+ const $=id=>document.getElementById(id), overlays=['rules-overlay','generate-overlay'];
+ const open=id=>$(id).classList.add('open'), close=id=>$(id).classList.remove('open');
+ $('open-rules').onclick=()=>open('rules-overlay');
+ const openGenerator=()=>{preset(1);open('generate-overlay')};
+ $('open-generate').onclick=openGenerator; $('generate-again').onclick=openGenerator;
+ document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));
+ overlays.forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))close(id)}));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')overlays.forEach(close)});
+ let selected=1, generated=[];
+ const copySvg='<svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>';
+ const trashSvg='<svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m4 4v6m6-6v6"/></svg>';
+ function preset(n){selected=n;$('custom-qty').value='';$('custom-qty').setCustomValidity('');document.querySelectorAll('.qty').forEach(b=>b.classList.toggle('selected',Number(b.dataset.qty)===n));$('generate-submit').textContent='Generate '+n}
+ document.querySelectorAll('.qty').forEach(b=>b.onclick=()=>preset(Number(b.dataset.qty)));
+ $('custom-qty').addEventListener('input',()=>{const raw=$('custom-qty').value;document.querySelectorAll('.qty').forEach(b=>b.classList.remove('selected'));if(raw===''){$('generate-submit').textContent='Generate Gmail';return}const n=Number(raw);$('generate-submit').textContent=Number.isInteger(n)&&n>=1&&n<=50?'Generate '+n:'Jumlah harus 1–50'});
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function backToIntro(){if(!generated.length){$('generated-card').hidden=true;$('generate-intro').hidden=false}}
+ function render(){
+   $('generated-total').textContent=generated.length;
+   $('unsubmitted-total').textContent=generated.filter(x=>x.submitStatus==='Belum Disetor').length;
+   $('generated-list').innerHTML=generated.map((x,i)=>{
+     const r=(x.registrationStatus||'').toLowerCase(), cls=r==='unregist'||r==='unregistered'?'unregistered':r==='error'?'error':r==='disable'||r==='disabled'?'disabled':r==='captcha'?'captcha':'';
+     const reg=cls?({unregistered:'Unregist',error:'Error',disabled:'Disable',captcha:'Captcha'}[cls]):'';
+     const s=x.submitStatus||'Belum Disetor';
+     return `<div class="generated-row"><button class="generated-email" data-copy="${i}" type="button"><span class="copy-one">${copySvg}</span><span>${esc(x.email)}</span></button><span class="state-pill registration-state ${cls}" ${reg?'':'hidden'}>${reg}</span><span class="submit-state ${s==='Pending'?'pending':s==='Ditolak'?'rejected':s==='Disetujui'?'approved':''}">${esc(s)}</span><button class="delete-row" data-delete="${i}" type="button" aria-label="Hapus Gmail">${trashSvg}</button></div>`;
+   }).join('');
+   $('generated-list').querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(generated[+b.dataset.copy].email));
+   $('generated-list').querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>{generated.splice(+b.dataset.delete,1);render();backToIntro()});
+   backToIntro();
+ }
+ async function copy(value){if(!value)return;try{await navigator.clipboard.writeText(value)}catch(e){const t=document.createElement('textarea');t.value=value;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}}
+ $('copy-password').onclick=()=>copy($('required-password').textContent.trim());
+ $('copy-all').onclick=()=>copy(generated.map(x=>x.email).join('\n'));
+ $('copy-unsubmitted').onclick=()=>copy(generated.filter(x=>x.submitStatus==='Belum Disetor').map(x=>x.email).join('\n'));
+ $('generate-submit').onclick=()=>{
+   const raw=$('custom-qty').value,n=raw===''?selected:Number(raw);
+   if(!Number.isInteger(n)||n<1||n>50){$('custom-qty').setCustomValidity('Masukkan bilangan bulat dari 1 sampai 50.');$('custom-qty').reportValidity();return}
+   $('custom-qty').setCustomValidity('');
+   generated=Array.from({length:n},(_,i)=>({email:`zenmail${88+i}@gmail.com`,registrationStatus:null,submitStatus:'Belum Disetor'}));
+   render();$('generate-intro').hidden=true;$('generated-card').hidden=false;
+   window.dispatchEvent(new CustomEvent('gmail:generate-request',{detail:{quantity:n}}));close('generate-overlay');
+ };
+ $('gmail-list').addEventListener('input',()=>{const lines=[...new Set($('gmail-list').value.split(/\r?\n/).map(s=>s.trim().toLowerCase()).filter(Boolean))];$('line-count').textContent=lines.length;const send=$('.send');send.disabled=lines.length===0;send.style.opacity=lines.length?1:.55});
+ $('.send').addEventListener('click',()=>{
+   const emails=[...new Set($('gmail-list').value.split(/\r?\n/).map(s=>s.trim().toLowerCase()).filter(Boolean))];if(!emails.length)return;
+   generated.forEach(x=>{if(emails.includes(x.email.toLowerCase()))x.submitStatus='Pending'});
+   render();window.dispatchEvent(new CustomEvent('gmail:submit-request',{detail:{emails}}));
+   $('gmail-list').value='';$('line-count').textContent='0';$('.send').disabled=true;$('.send').style.opacity=.55;
+ });
+ // Reserved for admin-confirmed registration labels.
+ window.addEventListener('gmail:registration-update',e=>{const u=e.detail||{};generated.forEach(x=>{if(['Unregist','Unregistered','Error','Disable','Disabled','Captcha'].includes(u[x.email]))x.registrationStatus=u[x.email]});render()});
+ // Any rejected submission except the separately handled Unregist result uses red "Ditolak".
+ window.addEventListener('gmail:status-update',e=>{const u=e.detail||{};generated.forEach(x=>{if(['Pending','Ditolak','Disetujui','Belum Disetor'].includes(u[x.email]))x.submitStatus=u[x.email]});render()});
+})();
+</script></body></html>
